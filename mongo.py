@@ -8,7 +8,7 @@ try:
     print("Connection successful!")
 
 except Exception as e:
-        print("Connection failed:", e)
+    print("Connection failed:", e)
     
 def read(collection,query):
     result = collection.find(query)
