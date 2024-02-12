@@ -2,7 +2,6 @@ from pymongo import MongoClient
 
 URL = "mongodb://localhost:27017/book"
 
-
 try:
     client = MongoClient(URL)
     db = client.get_database()
@@ -20,3 +19,5 @@ mycollection = db["books"]
 q = {"authors" : "Bill Bryson"}
 
 read(mycollection,q)
+
+client.close()
