@@ -28,7 +28,7 @@ try:
     print("Connection successful!")
 
 except Exception as e:
-        print("Connection failed:", e)
+    print("Connection failed:", e)
     
 def read(collection,query,specific_valuee):
     try:
@@ -48,6 +48,9 @@ try:
 
     read(allbooks,q,"bookID")
 
+
     client.close()
 except Exception as e:
      print(f"There was an error {e}")
+=======
+read(mycollection,q)
