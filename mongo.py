@@ -52,5 +52,5 @@ try:
     client.close()
 except Exception as e:
      print(f"There was an error {e}")
-=======
+
 read(mycollection,q)
