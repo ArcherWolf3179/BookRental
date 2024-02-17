@@ -35,7 +35,11 @@ def read(collection,query,specific_valuee):
         result = collection.find(query)
         for doc in result:
              specific_value = doc[specific_valuee]
-             print(f"Specific Value: {specific_value}")
+
+        if type(specific_valuee) == str:
+            print(f" {specific_valuee.capitalize()} : {specific_value}")
+
+
     except Exception as e:
          print(f"There was an error: {e}")
 
@@ -46,7 +50,7 @@ try:
     rentedBooks = db["rentedBooks"]
     q = {"title" : "A Short History of Nearly Everything"}
 
-    read(allbooks,q,"bookID")
+    read(allbooks,q,"title")
 
 
     client.close()
