@@ -24,6 +24,9 @@ def read(collection,query,specific_valuee):
     except Exception as e:
          print(f"There was an error: {e}")
 
+def rent_A_Book(allBooksCollection,rentedBooksCollection):
+    pass
+
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
 
 try:
