@@ -37,6 +37,23 @@ def rent_A_Book(rentedBooksCollection,newDoc):
     except Exception as e:
         print(f"There was an error {e}")
 
+
+def SignUp(userCollection,email,number):
+    try:
+        e = userCollection.find() 
+        n = userCollection.find(number)
+
+        if n or e:
+            print("You've already signed up here before with this email or number")
+        else:
+            userInfo = {email,number}
+            userCollection.insert_one(userInfo)
+            print("Inserted user info")
+            del(userInfo,e,n)
+
+    except Exception as e:
+        print(f"There was an error: {e}")
+
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
 
 try:
@@ -48,6 +65,8 @@ try:
 
     read(allbooks,q,"title")
     rent_A_Book(rentedBooks,new_Docs)
+
+    SignUp(userDB,{"email":"archerwolf@gmail.com"},{"number" : "123-456-789"})
 
     client.close()
 except Exception as e:
