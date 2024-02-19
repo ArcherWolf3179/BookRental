@@ -18,8 +18,8 @@ def read(collection,query,specific_valuee):
              specific_value = doc[specific_valuee]
 
         if type(specific_valuee) == str:
-            print(f" {specific_valuee.capitalize()} : {specific_value}")
-
+          
+            print(f"{specific_valuee.capitalize()} : {specific_value}")
 
     except Exception as e:
          print(f"There was an error: {e}")
@@ -47,6 +47,7 @@ try:
     new_Docs = {"title" : "A Short History of Nearly Everything", "author" : "Bill Bryson"}
 
     read(allbooks,q,"title")
+
     rent_A_Book(rentedBooks,new_Docs)
 
     client.close()
