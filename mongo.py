@@ -11,9 +11,9 @@ try:
 except Exception as e:
     print("Connection failed:", e)
     
-def read(collection,query,specific_valuee):
+def read(allbookscollection,query,specific_valuee):
     try:
-        result = collection.find(query)
+        result = allbookscollection.find(query)
         for doc in result:
              specific_value = doc[specific_valuee]
 
