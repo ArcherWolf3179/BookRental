@@ -19,12 +19,12 @@ def read(collection,query,specific_valuee):
 
         if type(specific_valuee) == str:
             print(f" {specific_valuee.capitalize()} : {specific_value}")
-
+            return specific_value, True
 
     except Exception as e:
          print(f"There was an error: {e}")
 
-def rent_A_Book(rentedBooksCollection,newDoc):
+def rent_A_Book(allbooksCollection,rentedBooksCollection,newDoc):
     try:
 
         result = rentedBooksCollection.find(newDoc)
@@ -32,11 +32,17 @@ def rent_A_Book(rentedBooksCollection,newDoc):
         if result:
             print("Book is already rented")
         else:
+
             insert_result = rentedBooksCollection.insert_one(newDoc)
             print(f"Inserted doc ID: {insert_result}")
     except Exception as e:
         print(f"There was an error {e}")
 
+def return_Book(allbookscollection,rentedbooksCollection,query):
+    try:
+        rentedbooksCollection.delete_one(query)
+    except Exception as e:
+        print(f"There was an error: {e}")
 
 def SignUp(userCollection,email,number):
     try:
@@ -63,8 +69,8 @@ try:
     q = {"title" : "A Short History of Nearly Everything"}
     new_Docs = {"title" : "A Short History of Nearly Everything", "author" : "Bill Bryson"}
 
-    read(allbooks,q,"title")
-    rent_A_Book(rentedBooks,new_Docs)
+    e = read(allbooks,q,"title")
+    rent_A_Book(allbooks,rentedBooks,new_Docs)
 
     SignUp(userDB,{"email":"archerwolf@gmail.com"},{"number" : "123-456-789"})
 
