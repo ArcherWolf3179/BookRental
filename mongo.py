@@ -24,9 +24,8 @@ def read(allbookscollection,query,specific_valuee):
     except Exception as e:
          print(f"There was an error: {e}")
 
-def rent_A_Book(allbooksCollection,rentedBooksCollection,newDoc):
+def rent_A_Book(rentedBooksCollection,newDoc):
     try:
-
         result = rentedBooksCollection.find(newDoc)
 
         if result:
@@ -38,7 +37,7 @@ def rent_A_Book(allbooksCollection,rentedBooksCollection,newDoc):
     except Exception as e:
         print(f"There was an error {e}")
 
-def return_Book(allbookscollection,rentedbooksCollection,query):
+def return_Book(rentedbooksCollection,query):
     try:
         rentedbooksCollection.delete_one(query)
     except Exception as e:
@@ -68,11 +67,6 @@ try:
     userDB = db["user"]
     q = {"title" : "A Short History of Nearly Everything"}
     new_Docs = {"title" : "A Short History of Nearly Everything", "author" : "Bill Bryson"}
-
-    e = read(allbooks,q,"title")
-    rent_A_Book(allbooks,rentedBooks,new_Docs)
-
-    SignUp(userDB,{"email":"archerwolf@gmail.com"},{"number" : "123-456-789"})
 
     client.close()
 except Exception as e:
