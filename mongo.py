@@ -21,6 +21,7 @@ def read(allbookscollection,query,specific_valuee):
             print(f" {specific_valuee.capitalize()} : {specific_value}")
             return specific_value, True
 
+
     except Exception as e:
          print(f"There was an error: {e}")
 
@@ -67,6 +68,10 @@ try:
     userDB = db["user"]
     q = {"title" : "A Short History of Nearly Everything"}
     new_Docs = {"title" : "A Short History of Nearly Everything", "author" : "Bill Bryson"}
+
+    read(allbooks,q,"title")
+
+    rent_A_Book(rentedBooks,new_Docs)
 
     client.close()
 except Exception as e:
