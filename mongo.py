@@ -58,11 +58,11 @@ def generate_UserID(userCollection):
 
         numbers = [num1,num2,num3,num4,num5,num6]
 
-        userID = [str(num) for num in numbers]
+        ud = [str(num) for num in numbers]
+
+        userID = ud[0] + ud[1] + ud[2] + ud[3] + ud[4] + ud[5]
 
         findUserID = userCollection.find({"ID": userID})
-
-        print(userID)
 
         return userID
     except Exception as e:
