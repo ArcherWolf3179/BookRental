@@ -26,17 +26,18 @@ def read(allbookscollection,query,specific_valuee):
     except Exception as e:
          print(f"There was an error read function: {e}")
 
-def rent_A_Book(rentedBooksCollection,newDoc,specific_value):
+def rent_A_Book(rentedBooksCollection,newDoc,userEmail,userDB,specificvalue):
     try:
-        result = read(rentedBooksCollection,newDoc,specific_value)
+        result = rentedBooksCollection.find({specificvalue : newDoc})
+        findUser = userDB.find({"email" :userEmail})
 
-        if result:
+        if result == False:
             print("Book is already rented")
-            return False
+            return False,1
         else:
-
-            insert_result = rentedBooksCollection.insert_one(newDoc)
+            insert_result = rentedBooksCollection.insert_one({specificvalue : newDoc,"email" : userEmail})
             print(f"Inserted doc ID: {insert_result}")
+
     except Exception as e:
         print(f"There was an error {e}")
 
@@ -62,7 +63,7 @@ def generate_UserID(userCollection):
 
         userID = ud[0] + ud[1] + ud[2] + ud[3] + ud[4] + ud[5]
 
-        findUserID = userCollection.find({"ID": userID})
+        #findUserID = userCollection.find({"ID": userID})
 
         return userID
     except Exception as e:
@@ -73,7 +74,7 @@ def SignUp(userCollection,email,number):
         e = userCollection.find({"email":email}) 
         n = userCollection.find({"number" : number})
 
-        if n or e:
+        if n == True or e == True:
             print("You've already signed up here before with this email or number")
         else:
             userID = generate_UserID(userCollection)
@@ -91,19 +92,8 @@ try:
     allbooks = db["books"]
     rentedBooks = db["rentedBooks"]
     userDB = db["user"]
-    q = {"title" : "A Short History of Nearly Everything"}
-    new_Docs = {"title" : "A Short History of Nearly Everything", "author" : "Bill Bryson"}
 
-    e = read(allbooks,q,"title")
-
-    red = read(userDB,{"number" : "123-456-7890"},"number")
-
-    en = generate_UserID(userDB)
-
-    print(en)
-
-    rent_A_Book(rentedBooks,new_Docs,"title")
-    SignUp(userDB,"archerwolf3179@gmail.com","123-456-7890")
+    e = rent_A_Book(rentedBooks,"A Short History of Nearly Everything","adkflafkdsf@gmail.com",userDB,"title")
 
     client.close()
 except Exception as e:
