@@ -26,17 +26,25 @@ def read(allbookscollection,query,specific_valuee):
     except Exception as e:
          print(f"There was an error read function: {e}")
 
-def rent_A_Book(rentedBooksCollection,newDoc,userEmail,userDB,specificvalue):
+def rent_A_Book(allbooks,userDB,rentedBooks,newDoc,specificvalue):
     try:
-        result = rentedBooksCollection.find({specificvalue : newDoc})
-        findUser = userDB.find({"email" :userEmail})
+        result = rentedBooks.find({specificvalue : newDoc})
+        findUser = userDB.find({"ID" : 1})
+        findBook = allbooks.find({specificvalue : newDoc})
 
-        if result == False:
+        if result:
             print("Book is already rented")
-            return False,1
+
+        elif findBook:
+            print("We don't have your book")
+
         else:
-            insert_result = rentedBooksCollection.insert_one({specificvalue : newDoc,"email" : userEmail})
-            print(f"Inserted doc ID: {insert_result}")
+            
+            if findUser:
+                insert_result = rentedBooks.insert_one({specificvalue : newDoc,"ID" : 1})
+                print(f"Inserted doc ID: {insert_result}")
+            else:
+                print("You need to sign up")
 
     except Exception as e:
         print(f"There was an error {e}")
@@ -63,11 +71,11 @@ def generate_UserID(userCollection):
 
         userID = ud[0] + ud[1] + ud[2] + ud[3] + ud[4] + ud[5]
 
-        #findUserID = userCollection.find({"ID": userID})
+        findUserID = userCollection.find({"ID": userID})
 
         return userID
     except Exception as e:
-        print(f"There was an error {e}")
+        print(f"There was an error {e}") 
 
 def SignUp(userCollection,email,number):
     try:
@@ -77,7 +85,7 @@ def SignUp(userCollection,email,number):
         if n == True or e == True:
             print("You've already signed up here before with this email or number")
         else:
-            userID = generate_UserID(userCollection)
+            userID = 1
             userInfo = {"email":email,"number" : number, "ID" : userID}
             userCollection.insert_one({"email":email,"number" : number, "ID" : userID})
             print("Inserted user info")
@@ -93,8 +101,8 @@ try:
     rentedBooks = db["rentedBooks"]
     userDB = db["user"]
 
-    e = rent_A_Book(rentedBooks,"A Short History of Nearly Everything","adkflafkdsf@gmail.com",userDB,"title")
+    #SignUp(userDB,"afkldafdsf@gmail.com","123-456-7890")
+    rent_A_Book(allbooks,userDB,rentedBooks,"A Short History of Nearly Everything","title")
 
-    client.close()
 except Exception as e:
     print(f"There was an error {e}")
