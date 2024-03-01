@@ -16,8 +16,6 @@ except Exception as e:
 def read(collection, query, specific_valuee):
     try:
         a = []
-        #, "$options": "i"
-        #result = collection.find({specific_valuee: {"$regex": query, "$options": "i"}})
         result = collection.find({'title':{'$regex':f'^{query}'}})
         for doc in result:
             a.append(doc[specific_valuee])
