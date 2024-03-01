@@ -13,6 +13,22 @@ except Exception as e:
     print("Connection failed:", e)
     
 
+def read(collection, query, specific_valuee):
+    try:
+        a = []
+        #, "$options": "i"
+        #result = collection.find({specific_valuee: {"$regex": query, "$options": "i"}})
+        result = collection.find({'title':{'$regex':f'^{query}'}})
+        for doc in result:
+            a.append(doc[specific_valuee])
+
+        for ei in a:
+            if query in ei:
+                print(ei)
+
+    except Exception as e:
+        print(f"There was an error: {e}")
+
 def rent_A_Book(allbooks,userDB,rentedBooks,newDoc,specificvalue):
     try:
         result = rentedBooks.find({specificvalue : newDoc})
