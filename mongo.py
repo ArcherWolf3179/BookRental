@@ -12,19 +12,6 @@ try:
 except Exception as e:
     print("Connection failed:", e)
     
-def read(allbookscollection,query,specific_valuee):
-    try:
-        specific_value = None
-        result = allbookscollection.find(query)
-        for doc in result:
-            specific_value = doc.get(specific_valuee)
-
-        if type(specific_valuee) == str:
-            print(f" {specific_valuee.capitalize()} : {specific_value}")
-            return specific_value, True
-
-    except Exception as e:
-         print(f"There was an error read function: {e}")
 
 def rent_A_Book(allbooks,userDB,rentedBooks,newDoc,specificvalue):
     try:
