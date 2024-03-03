@@ -2,18 +2,24 @@ from pymongo import MongoClient
 import random
 #from bson import ObjectId
 
-URL = "mongodb://localhost:27017/book"
-
 try:
+
+    URL = "mongodb://localhost:27017/book"
+
     client = MongoClient(URL)
     db = client.get_database()
     print("Connection successful!")
 
-except Exception as e:
-    print("Connection failed:", e)
-    
+    allbooks = db["books"]
+    rentedBooks = db["rentedBooks"]
+    userDB = db["user"]
 
-def read(collection, query, specific_valuee):
+    #SignUp(userDB,"afkldafdsf@gmail.com","123-456-7890")
+
+except Exception as e:
+    print(f"There was an error {e}")
+
+def read(collection,query, specific_valuee):
     try:
         a = []
         result = collection.find({'title':{'$regex':f'^{query}'}})
@@ -27,7 +33,7 @@ def read(collection, query, specific_valuee):
     except Exception as e:
         print(f"There was an error: {e}")
 
-def rent_A_Book(allbooks,userDB,rentedBooks,newDoc,specificvalue):
+def rent_A_Book(newDoc,specificvalue):
     try:
         result = rentedBooks.find({specificvalue : newDoc})
         findUser = userDB.find({"ID" : 1})
@@ -50,23 +56,23 @@ def rent_A_Book(allbooks,userDB,rentedBooks,newDoc,specificvalue):
     except Exception as e:
         print(f"There was an error {e}")
 
-def return_Book(rentedbooksCollection,query):
+def return_Book(query):
     try:
-        rentedbooksCollection.delete_one(query)
+        rentedBooks.delete_one(query)
     except Exception as e:
         print(f"There was an error: {e}")
 
-def SignUp(userCollection,email,number):
+def SignUp(email,number):
     try:
-        e = userCollection.find({"email":email}) 
-        n = userCollection.find({"number" : number})
+        e = userDB.find({"email":email}) 
+        n = userDB.find({"number" : number})
 
         if n == True or e == True:
             print("You've already signed up here before with this email or number")
         else:
             userID = 1
             userInfo = {"email":email,"number" : number, "ID" : userID}
-            userCollection.insert_one({"email":email,"number" : number, "ID" : userID})
+            userDB.insert_one({"email":email,"number" : number, "ID" : userID})
             print("Inserted user info")
             del(userInfo,e,n,userID)
 
@@ -74,14 +80,3 @@ def SignUp(userCollection,email,number):
         print(f"There was an error function SIgn up: {e}")
 
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
-
-try:
-    allbooks = db["books"]
-    rentedBooks = db["rentedBooks"]
-    userDB = db["user"]
-
-    #SignUp(userDB,"afkldafdsf@gmail.com","123-456-7890")
-    rent_A_Book(allbooks,userDB,rentedBooks,"A Short History of Nearly Everything","title")
-
-except Exception as e:
-    print(f"There was an error {e}")
