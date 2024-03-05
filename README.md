@@ -1,3 +1,4 @@
-PROJECT OBJECTIVES FOR PHASE 1
-a. 2 tier architecture (backend + DB) - to query inventory loaded into mongodb and print inventory.
-b.https://www.figma.com/file/GAjLy3bnr99UBwEmrrZhAQ/BOOK-RENTAL?type=design&node-id=0-1&mode=design&t=x6iszLZIOIQORnt3-0 
+This project explores using basic CRUD operations to access databases with MongoDB and connecting that with a frontend using Flask to make it so that the user can view, rent and return books.
+OBJECTIVES:
+1. Make frontend
+2. Connect frontend to backend
