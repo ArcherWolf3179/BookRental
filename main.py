@@ -1,17 +1,14 @@
 from backend import mongo
 from flask import Flask, redirect, url_for, render_template
-from logging import FileHandler, WARNING
-import os
 
 try:
     app = Flask(__name__)
-    htmlfile = r"C:\Users\avyuk\OneDrive\Desktop\BookRental\templates\index.html"
     @app.route("/")
 
     def home():
         try:
             r = mongo.read(mongo.allbooks,"A Short","title")
-            return render_template('index.html')
+            return render_template('index.html',content=r)
         
         except FileNotFoundError as e:
             print(f"The file wasn't found more info can be found here {e}")
