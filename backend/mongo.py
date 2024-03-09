@@ -77,6 +77,4 @@ def SignUp(email,number):
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")
 
-rent_A_Book("A Short History of Nearly Everything","title")
-
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
