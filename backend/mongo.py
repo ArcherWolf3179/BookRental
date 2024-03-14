@@ -37,10 +37,10 @@ def rent_A_Book(newDoc,specificvalue):
         findUser = userDB.find({"ID" : 1})
         findBook = allbooks.find({specificvalue : newDoc})
 
-        if result:
+        if findBook:
             print("Book is already rented")
 
-        elif findBook:
+        elif result:
             print("We don't have your book")
 
         else:
