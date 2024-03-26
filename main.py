@@ -8,7 +8,7 @@ try:
     def home():
         try:
             r = mongo.read(mongo.allbooks,"A Short","title")
-            return render_template('index.html',content=r)
+            return render_template('index.html')
         
         except FileNotFoundError as e:
             print(f"The file wasn't found more info can be found here {e}")
