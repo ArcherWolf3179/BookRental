@@ -1,5 +1,5 @@
 from backend import mongo
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, request
 
 try:
     app = Flask(__name__)
@@ -16,13 +16,23 @@ try:
         except Exception as e:
             print(f"There was an error: {e}")
 
+    @app.route('/search',methods=['POST'])
+
+    def search():
+        search_data = request.form['search_data']
+
+        readResult = mongo.read(mongo.allbooks,search_data,"title")
+        print("HelloWorld")
+
+        return render_template('result.html',content=readResult)
+
     @app.route("/admin")
 
     def admin():
         return redirect(url_for("home"))
 
     if __name__ == "__main__":
-        app.run()
+        app.run(debug=True)
 
 except TypeError as e:
     print(f"There was a type error please check the {e} for the correct type")
