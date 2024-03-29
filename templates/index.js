@@ -1,5 +1,7 @@
-const submitButton = document.getElementById("submit");
+const submitButton = document.getElementById("submit")
 
 submitButton.onclick = function() {
-    const bookWantedToSearch = document.getElementById("Search");
+    let search = document.getElementById("Search").textContent;
+    localStorage.getItem(search);
+    submitButton.textContent = search;
 }
