@@ -1,12 +1,13 @@
 <html>
     <head>
-        Library Home
+        <title>Library Home</title>
     </head>
 
     <body>
         {% for x in content %}
-            <p>{{x}}</p>
+            <form action="/book" method="get">
+                <button name="book">{{x}}</button>
+            </form>
         {% endfor %}
     </body>
-
 </html>

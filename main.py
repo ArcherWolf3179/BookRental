@@ -3,11 +3,14 @@ from flask import Flask, redirect, url_for, render_template, request
 
 try:
     app = Flask(__name__)
+    allbooks = mongo.allbooks
+    rentedBookds = mongo.rentedBooks
+    userDB = mongo.userDB
     @app.route("/")
 
     def home():
         try:
-            r = mongo.read(mongo.allbooks,"A Short","title")
+            r = mongo.read(allbooks,"A Short","title")
             return render_template('index.html')
         
         except FileNotFoundError as e:
@@ -21,8 +24,8 @@ try:
     def search():
         search_data = request.form['search_data']
 
-        readResult = mongo.read(mongo.allbooks,search_data,"title")
-        print("HelloWorld")
+        readResult = mongo.read(allbooks,search_data,"title")
+        print(readResult)
 
         return render_template('result.html',content=readResult)
 
@@ -30,6 +33,13 @@ try:
 
     def admin():
         return redirect(url_for("home"))
+
+    @app.route("/book",methods=['GET'])
+
+    def goToBook():
+        nameData = request.form['book']
+        title = mongo.read(allbooks,nameData,"title")
+        return render_template('book.html',BookName=nameData,bookTitle=title)
 
     if __name__ == "__main__":
         app.run(debug=True)

@@ -22,7 +22,7 @@ except Exception as e:
 def read(collection,query, specific_valuee):
     try:
         a = []
-        result = collection.find({'title':{'$regex':f'^{query}'}})
+        result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
         for doc in result:
             a.append(doc[specific_valuee])
         
