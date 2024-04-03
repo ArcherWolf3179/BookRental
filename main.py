@@ -25,7 +25,6 @@ try:
         search_data = request.form['search_data']
 
         readResult = mongo.read(allbooks,search_data,"title")
-        print(readResult)
 
         return render_template('result.html',content=readResult)
 
@@ -34,12 +33,13 @@ try:
     def admin():
         return redirect(url_for("home"))
 
-    @app.route("/book",methods=['GET'])
+    @app.route("/book",methods=['POST'])
 
     def goToBook():
-        nameData = request.form['book']
-        title = mongo.read(allbooks,nameData,"title")
-        return render_template('book.html',BookName=nameData,bookTitle=title)
+        book_data = request.form['book_data']
+        title = mongo.read(allbooks,book_data,"title")
+        print(title,book_data)
+        return book_data
 
     if __name__ == "__main__":
         app.run(debug=True)

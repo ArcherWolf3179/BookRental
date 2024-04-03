@@ -1,10 +1,12 @@
 <html>
     <head>
-        <title>{{BookName}}</title>
+        <title>See Book</title>
     </head>
 
     <body>
-        
+           {% for x in BookName%}
+                <p>{{x}}</p>
+           {% endfor %}
     </body>
 
 </html>

@@ -5,8 +5,8 @@
 
     <body>
         {% for x in content %}
-            <form action="/book" method="get">
-                <button name="book">{{x}}</button>
+            <form action="/book" method="post">
+                <button name="book_data" id="book">{{x}}</button>
             </form>
         {% endfor %}
     </body>
