@@ -1,11 +1,12 @@
 <html>
     <head>
         <title>Library Home</title>
+        
     </head>
         <body>
-            <h1>Here's your books</h1>
-                {% for x in content %}
-                    <p>{{x}}</p>
-                {% endfor %}
+            <form action="/search" method="post">
+                <input type="text" id="Search" name="search_data"></input>
+                <button id="submit">submit</button>
+            </form>
         </body>
 </html>
