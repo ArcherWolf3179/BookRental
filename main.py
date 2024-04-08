@@ -25,7 +25,7 @@ try:
         print(request.method)
         if request.method == 'POST':
             book_data = request.form.get('book_data')
-            title = mongo.read(allbooks,book_data,"title")
+            title = mongo.read(allbooks,book_data,"title") #so the problem here is that the book data isn't getting the actual title of the book we want
             print(book_data)
             return render_template('book.html',BookName=title)
 
