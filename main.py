@@ -16,7 +16,7 @@ try:
     def search():
         if request.method == 'POST':
             search_data = request.form['search_data']
-            readResult = mongo.read(allbooks,search_data,"title")
+            readResult = mongo.read(allbooks,search_data,"title",1)
             return render_template('result.html',content=readResult)
 
     @app.route("/book",methods=['POST'])
