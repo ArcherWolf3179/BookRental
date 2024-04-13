@@ -16,17 +16,14 @@ try:
     def search():
         if request.method == 'POST':
             search_data = request.form['search_data']
-            readResult = mongo.read(allbooks,search_data,"title",1)
-            return render_template('result.html',content=readResult)
+            titleResult = mongo.read(allbooks,search_data,"title",1)
 
+            return render_template('result.html',content=titleResult)
+        
     @app.route("/book",methods=['POST'])
 
-    def goToBook():
-        if request.method == 'POST':
-            book_data = request.form.get('book_data')
-            title = mongo.read(allbooks,book_data,"title",2)
-            print(book_data)
-            return render_template('book.html',BookName=title)
+    def book():
+        pass
 
     if __name__ == "__main__":
         app.run(debug=True)
