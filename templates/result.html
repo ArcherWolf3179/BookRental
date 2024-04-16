@@ -1,9 +1,16 @@
 <html>
     <head>
         <title>Library Home</title>
+        <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
+        <form action="/search",method="post">
+            <input type="text" name="search_data"> </input>
+            <button id="submit">submit</button>
+        </form>
+        <br>
+
         {% for x in content %}
             <form action="/book" method="post"></form>
                <h1>{{x}}</h1>

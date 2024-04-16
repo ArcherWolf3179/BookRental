@@ -11,19 +11,13 @@ try:
     def home():
         return render_template('index.html')
 
-    @app.route('/search',methods=['POST'])
+    @app.route('/search',methods=['POST','GET'])
 
     def search():
         if request.method == 'POST':
             search_data = request.form['search_data']
-            titleResult = mongo.read(allbooks,search_data,"title",1)
-
-            return render_template('result.html',content=titleResult)
-        
-    @app.route("/book",methods=['POST'])
-
-    def book():
-        pass
+            readResult = mongo.read(allbooks,search_data,"title",1)
+            return render_template('result.html',content=readResult)
 
     if __name__ == "__main__":
         app.run(debug=True)
