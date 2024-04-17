@@ -18,6 +18,11 @@ try:
             search_data = request.form['search_data']
             readResult = mongo.read(allbooks,search_data,"title",1)
             return render_template('result.html',content=readResult)
+        
+    @app.route('/view_book/<int:post_id>',methods=['GET','POST'])
+
+    def getBook(post_id):
+        pass
 
     if __name__ == "__main__":
         app.run(debug=True)
