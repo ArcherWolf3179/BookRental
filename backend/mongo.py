@@ -19,18 +19,14 @@ try:
 except Exception as e:
     print(f"There was an error {e}")
 
-def read(collection,query, specific_valuee,search_method):
+def read(collection,query, specific_valuee):
     try:
-        if search_method == 1:
-            a = []
-            result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
-            for doc in result:
-                a.append(doc[specific_valuee])
-            
-            return a
-        elif search_method == 2:
-            result = collection.find({specific_valuee : query})
+        a = []
+        result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
+        for doc in result:
+            a.append(doc)
 
+        return a
     except Exception as e:
         print(f"There was an error: {e}")
 
@@ -42,15 +38,18 @@ def rent_A_Book(newDoc,specificvalue):
 
         if findBook:
             print("Book is already rented")
+            return 3
 
         elif result:
             print("We don't have your book")
+            return 2
 
         else:
             
             if findUser:
                 insert_result = rentedBooks.insert_one({specificvalue : newDoc,"ID" : 1})
                 print(f"Inserted doc ID: {insert_result}")
+                return 1
             else:
                 print("You need to sign up")
 
@@ -79,5 +78,7 @@ def SignUp(email,number):
 
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")
+
+read(allbooks,"A Short","title")
 
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher

@@ -11,23 +11,23 @@ try:
     def home():
         return render_template('index.html')
 
-    @app.route('/search',methods=['POST'])
+    @app.route('/search',methods=['POST','GET'])
 
     def search():
-        if request.method == 'POST':
-            search_data = request.form['search_data']
-            readResult = mongo.read(allbooks,search_data,"title")
-            return render_template('result.html',content=readResult)
+        try:
+            if request.method == 'POST':
+                search_data = request.form['search_data']
+                readResult = mongo.read(allbooks,search_data,"title")
+                return render_template('result.html',content=readResult,specific_value="title")
+        except KeyError as e:
+            print(f"Key Error more info here: {e}")
+        
+    @app.route('/view_book',methods=['GET','POST'])
 
-    @app.route("/book",methods=['POST'])
-
-    def goToBook():
-        print(request.method)
+    def getBook():
         if request.method == 'POST':
-            book_data = request.form.get('book_data')
-            title = mongo.read(allbooks,book_data,"title")
-            print(book_data)
-            return render_template('book.html',BookName=title)
+            bookIDdata = request.form.get(['bookID'])
+            return "Oh"
 
     if __name__ == "__main__":
         app.run(debug=True)
