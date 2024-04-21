@@ -1,7 +1,6 @@
 <html>
     <head>
         <title>Library Home</title>
-        <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
@@ -12,8 +11,11 @@
         <br>
 
         {% for x in content %}
-            <form action="/book" method="post"></form>
-               <h1>{{x}}</h1>
+            <form action="/view_book" method="post"></form>
+               <button>{{x[specific_value]}}</button>
+                <div name="bookID" style="display: none;">
+                    {{x[bookID]}}
+                </div>
             </form>
         {% endfor %}
     </body>

@@ -14,15 +14,20 @@ try:
     @app.route('/search',methods=['POST','GET'])
 
     def search():
-        if request.method == 'POST':
-            search_data = request.form['search_data']
-            readResult = mongo.read(allbooks,search_data,"title",1)
-            return render_template('result.html',content=readResult)
+        try:
+            if request.method == 'POST':
+                search_data = request.form['search_data']
+                readResult = mongo.read(allbooks,search_data,"title")
+                return render_template('result.html',content=readResult,specific_value="title")
+        except KeyError as e:
+            print(f"Key Error more info here: {e}")
         
-    @app.route('/view_book/<int:post_id>',methods=['GET','POST'])
+    @app.route('/view_book',methods=['GET','POST'])
 
-    def getBook(post_id):
-        pass
+    def getBook():
+        if request.method == 'POST':
+            bookIDdata = request.form.get(['bookID'])
+            return "Oh"
 
     if __name__ == "__main__":
         app.run(debug=True)
