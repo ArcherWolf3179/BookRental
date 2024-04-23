@@ -22,12 +22,16 @@ try:
         except KeyError as e:
             print(f"Key Error more info here: {e}")
         
-    @app.route('/view_book',methods=['GET','POST'])
+    @app.route('/view_book/<bookID>',methods=['POST'])
 
-    def getBook():
-        if request.method == 'POST':
-            bookIDdata = request.form.get(['bookID'])
-            return "Oh"
+    def book(bookID):
+        try:
+            print("hello world",bookID)
+            if request.method =='POST':
+                readResult = mongo.read(allbooks,bookID,"bookID")
+                return render_template('book.html',BookName=readResult)
+        except Exception as e:
+            print(f"There was an error{e}")
 
     if __name__ == "__main__":
         app.run(debug=True)
