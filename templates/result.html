@@ -1,22 +1,16 @@
 <html>
     <head>
         <title>Library Home</title>
+        <script src="index.js"></script>
     </head>
 
     <body>
-        <form action="/search",method="post">
-            <input type="text" name="search_data"> </input>
-            <button id="submit">submit</button>
-        </form>
-        <br>
 
         {% for x in content %}
-            <form action="/view_book" method="post"></form>
-               <button>{{x[specific_value]}}</button>
-                <div name="bookID" style="display: none;">
-                    {{x[bookID]}}
-                </div>
+            <form action="/view_book/{{x['bookID']}}" method="post">
+                <button id="submit" type="submit">{{ x[specific_value] }}</button>
             </form>
         {% endfor %}
     </body>
+   
 </html>
