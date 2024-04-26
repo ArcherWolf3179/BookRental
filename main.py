@@ -26,9 +26,9 @@ try:
 
     def book(bookID):
         try:
-            print("hello world",bookID)
             if request.method =='POST':
                 readResult = mongo.read(allbooks,bookID,"bookID")
+                print(readResult) #According to this result we're being returned nothing
                 return render_template('book.html',BookName=readResult)
         except Exception as e:
             print(f"There was an error{e}")
