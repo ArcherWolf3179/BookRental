@@ -27,10 +27,13 @@ try:
     def book(bookID):
         try:
             if request.method =='POST':
-                bookID = int(bookID)
-                readResult = mongo.read(allbooks,bookID,"bookID",0)
+                readResult = mongo.read(allbooks,int(bookID),"bookID",1)
                 print(readResult) #According to this result we're being returned nothing
-                return render_template('book.html',BookName=readResult)
+                if readResult == None:
+                    return "We couldn't find what you were looking for"
+                else:
+                    return render_template('book.html',BookName=readResult)
+                
         except Exception as e:
             print(f"There was an error{e}")
 
