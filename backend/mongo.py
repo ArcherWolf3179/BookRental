@@ -19,16 +19,22 @@ try:
 except Exception as e:
     print(f"There was an error {e}")
 
-def read(collection,query, specific_valuee):
+def read(collection,query, specific_valuee,searchMethod):
     try:
-        print("hey")
-        a = []
-        result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
-        for doc in result:
-            print(doc)
-            a.append(doc)
-        print(a)
-        return a
+        if searchMethod == 0:
+            print("hey")
+            a = []
+            result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
+            for doc in result:
+                print(doc)
+                a.append(doc)
+            print(a)
+            return a
+        elif searchMethod == 1:
+            a = []
+            result = collection.find({specific_valuee : query})
+            for doc in result:
+                a.append(doc)
 
     except Exception as e:
         print(f"There was an error: {e}")

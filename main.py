@@ -17,7 +17,7 @@ try:
         try:
             if request.method == 'POST':
                 search_data = request.form['search_data']
-                readResult = mongo.read(allbooks,search_data,"title")
+                readResult = mongo.read(allbooks,search_data,"title",0)
                 return render_template('result.html',content=readResult,specific_value="title")
         except KeyError as e:
             print(f"Key Error more info here: {e}")
@@ -27,7 +27,8 @@ try:
     def book(bookID):
         try:
             if request.method =='POST':
-                readResult = mongo.read(allbooks,bookID,"bookID")
+                bookID = int(bookID)
+                readResult = mongo.read(allbooks,bookID,"bookID",0)
                 print(readResult) #According to this result we're being returned nothing
                 return render_template('book.html',BookName=readResult)
         except Exception as e:
