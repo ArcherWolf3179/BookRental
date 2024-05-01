@@ -1,7 +1,10 @@
 from backend import mongo
 from flask import Flask, render_template, request
+import os
 
 try:
+    placeholderimg = r"C:\Users\avyuk\OneDrive\Pictures\Screenshots\placeholderimg"
+
     app = Flask(__name__)
     allbooks = mongo.allbooks
     rentedBookds = mongo.rentedBooks
@@ -29,10 +32,18 @@ try:
             if request.method =='POST':
                 readResult = mongo.read(allbooks,int(bookID),"bookID",1)
                 print(readResult) #According to this result we're being returned nothing
+
+                if os.path.exists(placeholderimg):
+                    placeholer = placeholderimg
+                    print("Found")
+                else:
+                    print("nothing")
+                    placeholer = None
+
                 if readResult == None:
                     return "We couldn't find what you were looking for"
                 else:
-                    return render_template('book.html',BookName=readResult)
+                    return render_template('book.html',BookName=readResult,placeholder = placeholer)
                 
         except Exception as e:
             print(f"There was an error{e}")

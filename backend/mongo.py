@@ -22,26 +22,26 @@ except Exception as e:
 def read(collection,query, specific_valuee,searchMethod):
     try:
 
-            if searchMethod == 0:
-                print("hey")
-                a = []
-                result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
+        if searchMethod == 0:
+            print("hey")
+            a = []
+            result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
 
-                for doc in result:
-                    print(doc)
-                    a.append(doc)
+            for doc in result:
+                print(doc)
+                a.append(doc)
                 
-                print(a)
+            print(a)
 
-                return a
+            return a
             
-            elif searchMethod == 1:
-                a = []
-                result = collection.find({specific_valuee : query})
-                for doc in result:
-                    print(doc)
-                    a.append(doc)
-                return a
+        elif searchMethod == 1:
+            a = []
+            result = collection.find({specific_valuee : query})
+            for doc in result:
+                print(doc)
+                a.append(doc)
+            return a
 
     except Exception as e:
         print(f"There was an error: {e}")
