@@ -1,7 +1,10 @@
 from backend import mongo
 from flask import Flask, render_template, request
+import os
 
 try:
+    placeholderimg = r"C:\Users\avyuk\OneDrive\Pictures\Screenshots\placeholderimg"
+
     app = Flask(__name__)
     allbooks = mongo.allbooks
     rentedBookds = mongo.rentedBooks
@@ -11,23 +14,46 @@ try:
     def home():
         return render_template('index.html')
 
-    @app.route('/search',methods=['POST'])
+    @app.route('/search',methods=['POST','GET'])
 
     def search():
-        if request.method == 'POST':
-            search_data = request.form['search_data']
-            readResult = mongo.read(allbooks,search_data,"title",1)
-            return render_template('result.html',content=readResult)
+        try:
+            if request.method == 'POST':
+                search_data = request.form['search_data']
+                readResult = mongo.read(allbooks,search_data,"title",0)
+                return render_template('result.html',content=readResult,specific_value="title")
+        except KeyError as e:
+            print(f"Key Error more info here: {e}")
+        
+    @app.route('/view_book/<bookID>',methods=['POST'])
 
-    @app.route("/book",methods=['POST'])
+    def book(bookID):
+        try:
+            if request.method =='POST':
+                readResult = mongo.read(allbooks,int(bookID),"bookID",1)
+                print(readResult) #According to this result we're being returned nothing
 
-    def goToBook():
-        print(request.method)
-        if request.method == 'POST':
-            book_data = request.form.get('book_data')
-            title = mongo.read(allbooks,book_data,"title") #so the problem here is that the book data isn't getting the actual title of the book we want
-            print(book_data)
-            return render_template('book.html',BookName=title)
+                if os.path.exists(placeholderimg):
+                    placeholer = placeholderimg
+                    print("Found")
+                else:
+                    print("nothing")
+                    placeholer = None
+
+                if readResult == None:
+                    return "We couldn't find what you were looking for"
+                else:
+                    return render_template('book.html',BookName=readResult,placeholder = placeholer)
+        except Exception as e:
+            print(f"There was an error{e}")
+
+    @app.route('/borrowBook/<bookID>', methods=['POST'])
+
+    def borrowBook(bookID):
+        try:
+            pass
+        except Exception as e:
+            print(f"There was an error {e}")
 
     if __name__ == "__main__":
         app.run(debug=True)

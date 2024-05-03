@@ -1,14 +1,15 @@
 <html>
     <head>
         <title>Library Home</title>
-        <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
+
         {% for x in content %}
-            <form action="/book" method="post"></form>
-               <h1>{{x}}</h1>
+            <form action="/view_book/{{x['bookID']}}" method="post">
+                <button id="submit" type="submit">{{ x[specific_value] }}</button>
             </form>
         {% endfor %}
     </body>
+   
 </html>
