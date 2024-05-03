@@ -44,9 +44,16 @@ try:
                     return "We couldn't find what you were looking for"
                 else:
                     return render_template('book.html',BookName=readResult,placeholder = placeholer)
-                
         except Exception as e:
             print(f"There was an error{e}")
+
+    @app.route('/borrowBook/<bookID>', methods=['POST'])
+
+    def borrowBook(bookID):
+        try:
+            pass
+        except Exception as e:
+            print(f"There was an error {e}")
 
     if __name__ == "__main__":
         app.run(debug=True)
