@@ -1,5 +1,5 @@
 from backend import mongo
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import os
 
 try:
@@ -9,10 +9,16 @@ try:
     allbooks = mongo.allbooks
     rentedBookds = mongo.rentedBooks
     userDB = mongo.userDB
-    @app.route("/")
+    @app.route('/')
 
     def home():
         return render_template('index.html')
+    
+    @app.route('/login', method=['POST'])
+
+    def login():
+        if request.method == 'POST':
+            pass
 
     @app.route('/search',methods=['POST','GET'])
 

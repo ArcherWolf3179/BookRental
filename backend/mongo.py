@@ -70,20 +70,26 @@ def return_Book(query):
     except Exception as e:
         print(f"There was an error: {e}")
 
-def SignUp(email,number):
+def SignUp(email,username):
     try:
-        e = userDB.find({"email":email}) 
-        n = userDB.find({"number" : number})
+        u = userDB.find({"username" : username})
 
-        if n == True or e == True:
+        a = []
+
+        for doc in u:
+            a.append(doc)
+
+        if len(a) >0:
             print("You've already signed up here before with this email or number")
         else:
             userID = 1
-            userInfo = {"email":email,"number" : number, "ID" : userID}
-            userDB.insert_one({"email":email,"number" : number, "ID" : userID})
+            userInfo = {"email" : email,"username" : username, "ID" : userID}
+            userDB.insert_one(userInfo)
             print("Inserted user info")
-            del(userInfo,e,n,userID)
+            del(userInfo,u,userID)
 
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
+
+SignUp("archerwolf3179@gmail.com","Avyukta Dinesh")
