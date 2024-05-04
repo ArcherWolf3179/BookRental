@@ -51,7 +51,14 @@ try:
 
     def borrowBook(bookID):
         try:
-            pass
+            if request.method == 'POST':
+                rentResult = mongo.rent_A_Book(bookID,'bookID')
+
+                if rentResult == 1:
+                    return render_template('borrow.html',x="You succesfully borrowed your book")
+                elif rentResult == 2:
+                    return render_template('borrow.html',x="Someone has already borrowed your book")
+
         except Exception as e:
             print(f"There was an error {e}")
 

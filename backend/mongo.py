@@ -50,24 +50,16 @@ def rent_A_Book(newDoc,specificvalue):
     try:
         result = rentedBooks.find({specificvalue : newDoc})
         findUser = userDB.find({"ID" : 1})
-        findBook = allbooks.find({specificvalue : newDoc})
-
-        if findBook:
-            print("Book is already rented")
-            return 3
-
-        elif result:
-            print("We don't have your book")
-            return 2
-
-        else:
             
-            if findUser:
-                insert_result = rentedBooks.insert_one({specificvalue : newDoc,"ID" : 1})
-                print(f"Inserted doc ID: {insert_result}")
-                return 1
-            else:
-                print("You need to sign up")
+        if result == True:
+            return 2 #This means that the book was already rented
+
+        if findUser:
+            insert_result = rentedBooks.insert_one({specificvalue : newDoc,"ID" : 1})
+            print(f"Inserted doc ID: {insert_result}")
+            return 1
+        else:
+            print("You need to sign up")
 
     except Exception as e:
         print(f"There was an error {e}")
