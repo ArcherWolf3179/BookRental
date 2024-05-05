@@ -46,10 +46,11 @@ def read(collection,query, specific_valuee,searchMethod):
     except Exception as e:
         print(f"There was an error: {e}")
 
-def rent_A_Book(newDoc,specificvalue):
+def rent_A_Book(newDoc,specificvalue,userID,email):
     try:
         result = rentedBooks.find({specificvalue : newDoc})
-        findUser = userDB.find({"ID" : 1})
+        findUser = userDB.find(userID)
+        email = userDB.find(email)
             
         if result == True:
             return 2 #This means that the book was already rented
@@ -91,5 +92,3 @@ def SignUp(email,username):
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
-
-SignUp("archerwolf3179@gmail.com","Avyukta Dinesh")
