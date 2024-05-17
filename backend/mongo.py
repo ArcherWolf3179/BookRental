@@ -23,34 +23,28 @@ def read(collection,query, specific_valuee,searchMethod):
     try:
 
         if searchMethod == 0:
-            print("hey")
             a = []
             result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
 
             for doc in result:
-                print(doc)
                 a.append(doc)
                 
-            print(a)
-
             return a
             
         elif searchMethod == 1:
             a = []
             result = collection.find({specific_valuee : query})
             for doc in result:
-                print(doc)
                 a.append(doc)
             return a
 
     except Exception as e:
         print(f"There was an error: {e}")
 
-def rent_A_Book(newDoc,specificvalue,userID,email):
+def rent_A_Book(newDoc,specificvalue,userID):
     try:
         result = rentedBooks.find({specificvalue : newDoc})
         findUser = userDB.find(userID)
-        email = userDB.find(email)
             
         if result == True:
             return 2 #This means that the book was already rented
@@ -92,3 +86,5 @@ def SignUp(email,username):
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
+
+print(read(userDB,{"username": "Avyukta Dinesh"},"username",1))

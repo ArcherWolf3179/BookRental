@@ -13,6 +13,11 @@ try:
 
     def home():
         return render_template('index.html')
+    
+    @app.route('/back')
+
+    def back():
+        return redirect(url_for('index.html'))
 
     @app.route('/login', methods=['POST'])
 
@@ -26,7 +31,7 @@ try:
             user = request.form["user"]
             email = request.form["email"]
 
-            mongo.SignUp({"email":email}, {"user":user})
+            mongo.SignUp({"email":email}, {"username":user})
 
             session["user"] = user
 
@@ -49,7 +54,6 @@ try:
         try:
             if request.method =='POST':
                 readResult = mongo.read(allbooks,int(bookID),"bookID",1)
-                print(readResult) #According to this result we're being returned nothing
 
                 if os.path.exists(placeholderimg):
                     placeholder = placeholderimg
@@ -72,13 +76,16 @@ try:
             if request.method == 'POST':
                 if "user" in session:
                     user = session["user"]
-                    print(user)
-                    rentResult = mongo.rent_A_Book(bookID,'bookID',{"ID",1})
+                    userId = mongo.read(userDB,{"username":user},"username",1)
+
+                    rentResult = mongo.rent_A_Book(bookID,'bookID',{"ID",userId["ID"]})
 
                     if rentResult == 1:
-                        return render_template('borrow.html',x="You succesfully borrowed your book")
+                        return "It succesfully borrowed"
                     elif rentResult == 2:
-                        return render_template('borrow.html',x="Someone has already borrowed your book")
+                        return "It did not borrow"
+                    else:
+                        return "None"
 
         except Exception as e:
             print(f"There was an errorr {e}")
