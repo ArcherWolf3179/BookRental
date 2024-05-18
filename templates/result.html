@@ -5,6 +5,10 @@
 
     <body>
 
+        <form action="/back">
+            <button>Back To Home</button>
+        </form>
+
         {% for x in content %}
             <form action="/view_book/{{x['bookID']}}" method="post">
                 <button id="submit" type="submit">{{ x[specific_value] }}</button>

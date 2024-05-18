@@ -17,39 +17,34 @@ try:
     #SignUp(userDB,"afkldafdsf@gmail.com","123-456-7890")
 
 except Exception as e:
-    print(f"There was an error {e}")
+    print(f"There was an error {e} mongo.py")
 
 def read(collection,query, specific_valuee,searchMethod):
     try:
 
         if searchMethod == 0:
-            print("hey")
             a = []
             result = collection.find({f'{specific_valuee}':{'$regex':f'^{query}'}})
 
             for doc in result:
-                print(doc)
                 a.append(doc)
                 
-            print(a)
-
             return a
             
         elif searchMethod == 1:
             a = []
             result = collection.find({specific_valuee : query})
             for doc in result:
-                print(doc)
                 a.append(doc)
             return a
 
     except Exception as e:
-        print(f"There was an error: {e}")
+        print(f"There was an error: {e} read")
 
-def rent_A_Book(newDoc,specificvalue):
+def rent_A_Book(newDoc,specificvalue,userID):
     try:
         result = rentedBooks.find({specificvalue : newDoc})
-        findUser = userDB.find({"ID" : 1})
+        findUser = userDB.find(userID)
             
         if result == True:
             return 2 #This means that the book was already rented
@@ -62,27 +57,31 @@ def rent_A_Book(newDoc,specificvalue):
             print("You need to sign up")
 
     except Exception as e:
-        print(f"There was an error {e}")
+        print(f"There was an error {e} rentedBook function")
 
 def return_Book(query):
     try:
         rentedBooks.delete_one(query)
     except Exception as e:
-        print(f"There was an error: {e}")
+        print(f"There was an error: {e} return book function")
 
-def SignUp(email,number):
+def SignUp(email,username):
     try:
-        e = userDB.find({"email":email}) 
-        n = userDB.find({"number" : number})
+        u = userDB.find({"username" : username})
 
-        if n == True or e == True:
+        a = []
+
+        for doc in u:
+            a.append(doc)
+
+        if len(a) >0:
             print("You've already signed up here before with this email or number")
         else:
             userID = 1
-            userInfo = {"email":email,"number" : number, "ID" : userID}
-            userDB.insert_one({"email":email,"number" : number, "ID" : userID})
+            userInfo = {"email" : email,"username" : username, "ID" : userID}
+            userDB.insert_one(userInfo)
             print("Inserted user info")
-            del(userInfo,e,n,userID)
+            del(userInfo,u,userID)
 
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")

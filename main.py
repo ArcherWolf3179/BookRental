@@ -1,5 +1,5 @@
 from backend import mongo
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, url_for, redirect
 import os
 
 try:
@@ -9,10 +9,33 @@ try:
     allbooks = mongo.allbooks
     rentedBookds = mongo.rentedBooks
     userDB = mongo.userDB
-    @app.route("/")
+    @app.route('/')
 
     def home():
         return render_template('index.html')
+    
+    @app.route('/back')
+
+    def back():
+        return redirect(url_for('home'))
+
+    @app.route('/login', methods=['POST'])
+
+    def login():
+        return render_template('login.html')
+
+    @app.route('/loggin', methods=['POST'])
+
+    def loggin():
+        if request.method == 'POST':
+            user = request.form["user"]
+            email = request.form["email"]
+
+            mongo.SignUp({"email":email}, {"username":user})
+
+            session["user"] = user
+
+            return redirect(url_for("home"))
 
     @app.route('/search',methods=['POST','GET'])
 
@@ -31,38 +54,49 @@ try:
         try:
             if request.method =='POST':
                 readResult = mongo.read(allbooks,int(bookID),"bookID",1)
-                print(readResult) #According to this result we're being returned nothing
 
                 if os.path.exists(placeholderimg):
-                    placeholer = placeholderimg
+                    placeholder = placeholderimg
                     print("Found")
                 else:
                     print("nothing")
-                    placeholer = None
+                    placeholder = None
 
                 if readResult == None:
                     return "We couldn't find what you were looking for"
                 else:
-                    return render_template('book.html',BookName=readResult,placeholder = placeholer)
+                    return render_template('book.html',BookName=readResult,placeholder = placeholder)
         except Exception as e:
-            print(f"There was an error{e}")
+            print(f"There was an error {e} book function")
 
     @app.route('/borrowBook/<bookID>', methods=['POST'])
 
     def borrowBook(bookID):
         try:
             if request.method == 'POST':
-                rentResult = mongo.rent_A_Book(bookID,'bookID')
+                if "user" in session:
+                    user = session["user"]
+                    userId = mongo.read(userDB,{"username":user},"username",1)
+                    print(f"This is the user id form line 80 {userId}")
+                    rentResult = mongo.rent_A_Book(bookID, 'bookID', {"ID": userId[0]["ID"]})
 
-                if rentResult == 1:
-                    return render_template('borrow.html',x="You succesfully borrowed your book")
-                elif rentResult == 2:
-                    return render_template('borrow.html',x="Someone has already borrowed your book")
+                    print(f"This is the rent result {rentResult}")
+
+                    if rentResult == 1:
+                        return "It succesfully borrowed"
+                    elif rentResult == 2:
+                        return "It did not borrow"
+                    else:
+                        return "None"
+                    
+            else:
+                return redirect(url_for('login'))
 
         except Exception as e:
-            print(f"There was an error {e}")
+            print(f"There was an errorr {e} borrow book function")
 
     if __name__ == "__main__":
+        app.secret_key = os.urandom(12).hex()
         app.run(debug=True)
 
 except TypeError as e:
@@ -72,4 +106,4 @@ except TimeoutError:
     print("Something timedout")
 
 except Exception as e:
-    print(f"There was an error {e}")
+    print(f"There was an error {e} main.py")
