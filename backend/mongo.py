@@ -17,7 +17,7 @@ try:
     #SignUp(userDB,"afkldafdsf@gmail.com","123-456-7890")
 
 except Exception as e:
-    print(f"There was an error {e}")
+    print(f"There was an error {e} mongo.py")
 
 def read(collection,query, specific_valuee,searchMethod):
     try:
@@ -39,7 +39,7 @@ def read(collection,query, specific_valuee,searchMethod):
             return a
 
     except Exception as e:
-        print(f"There was an error: {e}")
+        print(f"There was an error: {e} read")
 
 def rent_A_Book(newDoc,specificvalue,userID):
     try:
@@ -57,13 +57,13 @@ def rent_A_Book(newDoc,specificvalue,userID):
             print("You need to sign up")
 
     except Exception as e:
-        print(f"There was an error {e}")
+        print(f"There was an error {e} rentedBook function")
 
 def return_Book(query):
     try:
         rentedBooks.delete_one(query)
     except Exception as e:
-        print(f"There was an error: {e}")
+        print(f"There was an error: {e} return book function")
 
 def SignUp(email,username):
     try:
@@ -86,5 +86,3 @@ def SignUp(email,username):
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
-
-print(read(userDB,{"username": "Avyukta Dinesh"},"username",1))

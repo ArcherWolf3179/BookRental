@@ -17,7 +17,7 @@ try:
     @app.route('/back')
 
     def back():
-        return redirect(url_for('index.html'))
+        return redirect(url_for('home'))
 
     @app.route('/login', methods=['POST'])
 
@@ -67,7 +67,7 @@ try:
                 else:
                     return render_template('book.html',BookName=readResult,placeholder = placeholder)
         except Exception as e:
-            print(f"There was an error{e}")
+            print(f"There was an error {e} book function")
 
     @app.route('/borrowBook/<bookID>', methods=['POST'])
 
@@ -77,8 +77,10 @@ try:
                 if "user" in session:
                     user = session["user"]
                     userId = mongo.read(userDB,{"username":user},"username",1)
+                    print(f"This is the user id form line 80 {userId}")
+                    rentResult = mongo.rent_A_Book(bookID, 'bookID', {"ID": userId[0]["ID"]})
 
-                    rentResult = mongo.rent_A_Book(bookID,'bookID',{"ID",userId["ID"]})
+                    print(f"This is the rent result {rentResult}")
 
                     if rentResult == 1:
                         return "It succesfully borrowed"
@@ -86,9 +88,12 @@ try:
                         return "It did not borrow"
                     else:
                         return "None"
+                    
+            else:
+                return redirect(url_for('login'))
 
         except Exception as e:
-            print(f"There was an errorr {e}")
+            print(f"There was an errorr {e} borrow book function")
 
     if __name__ == "__main__":
         app.secret_key = os.urandom(12).hex()
@@ -101,4 +106,4 @@ except TimeoutError:
     print("Something timedout")
 
 except Exception as e:
-    print(f"There was an error {e}")
+    print(f"There was an error {e} main.py")
