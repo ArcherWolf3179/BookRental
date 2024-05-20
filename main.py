@@ -1,6 +1,7 @@
 from backend import mongo
 from flask import Flask, render_template, request, session, url_for, redirect
 import os
+from datetime import timedelta
 
 try:
     placeholderimg = r"C:\Users\avyuk\OneDrive\Pictures\Screenshots\placeholderimg"
@@ -9,10 +10,18 @@ try:
     allbooks = mongo.allbooks
     rentedBookds = mongo.rentedBooks
     userDB = mongo.userDB
+
+    app.secret_key = os.urandom(12).hex()
+    app.permanent_session_lifetime = timedelta(days=30)
+
     @app.route('/')
 
     def home():
-        return render_template('index.html')
+        if "user" in session:
+            user = session['user']
+            return render_template('index.html',x=user)
+        else:
+            return render_template('index.html',x="Log in")
     
     @app.route('/back')
 
@@ -22,17 +31,20 @@ try:
     @app.route('/login', methods=['POST'])
 
     def login():
-        return render_template('login.html')
+        if "user" in session:
+            return "Your already logged in"
+        else:
+            return render_template('login.html')
 
     @app.route('/loggin', methods=['POST'])
 
     def loggin():
         if request.method == 'POST':
+            session.permanent = True
             user = request.form["user"]
             email = request.form["email"]
 
             mongo.SignUp({"email":email}, {"username":user})
-
             session["user"] = user
 
             return redirect(url_for("home"))
@@ -77,17 +89,17 @@ try:
                 if "user" in session:
                     user = session["user"]
                     userId = mongo.read(userDB,{"username":user},"username",1)
-                    print(f"This is the user id form line 80 {userId}")
+                    #print(f"This is the user id form line 80 {userId}")
                     rentResult = mongo.rent_A_Book(bookID, 'bookID', {"ID": userId[0]["ID"]})
 
                     print(f"This is the rent result {rentResult}")
 
                     if rentResult == 1:
-                        return "It succesfully borrowed"
+                        return render_template('borrow.html',x="You have succesfully borrowed this book")
                     elif rentResult == 2:
-                        return "It did not borrow"
+                        return render_template('borrow.html',x="It seems someone else has borrowed this book")
                     else:
-                        return "None"
+                        return "none"
                     
             else:
                 return redirect(url_for('login'))
@@ -96,7 +108,6 @@ try:
             print(f"There was an errorr {e} borrow book function")
 
     if __name__ == "__main__":
-        app.secret_key = os.urandom(12).hex()
         app.run(debug=True)
 
 except TypeError as e:
