@@ -46,7 +46,12 @@ def rent_A_Book(newDoc,specificvalue,userID):
         result = rentedBooks.find({specificvalue : newDoc})
         findUser = userDB.find(userID)
             
-        if result == True:
+        a = []
+
+        for doc in result:
+            a.append(doc)
+
+        if len(a) > 0:
             return 2 #This means that the book was already rented
 
         if findUser:
@@ -55,6 +60,7 @@ def rent_A_Book(newDoc,specificvalue,userID):
             return 1
         else:
             print("You need to sign up")
+            return 3
 
     except Exception as e:
         print(f"There was an error {e} rentedBook function")
