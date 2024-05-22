@@ -84,7 +84,7 @@ try:
     @app.route('/borrowBook/<bookID>', methods=['POST'])
 
     def borrowBook(bookID):
-        #try:
+        try:
             if request.method == 'POST':
                 if "user" in session:
                     user = session["user"]
@@ -107,8 +107,8 @@ try:
             else:
                 return redirect(url_for('login'))
 
-        #except Exception as e:
-         #   print(f"There was an errorr {e} borrow book function")
+        except Exception as e:
+           print(f"There was an errorr {e} borrow book function")
 
     if __name__ == "__main__":
         app.run(debug=True)

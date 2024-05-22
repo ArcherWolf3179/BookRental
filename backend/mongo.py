@@ -43,7 +43,7 @@ def read(collection,query, specific_valuee,searchMethod):
         print(f"There was an error: {e} read")
 
 def rent_A_Book(query):
-    #try:
+    try:
         result = read(rentedBooks,query["bookID"],"bookID",1)
         findUser = read(userDB,query['ID'],"ID",1)
             
@@ -67,8 +67,8 @@ def rent_A_Book(query):
             print("You need to sign up")
             return 3
 
-    #except Exception as e:
-    #    print(f"There was an error {e} rentedBook function")
+    except Exception as e:
+        print(f"There was an error {e} rentedBook function")
 
 def return_Book(query):
     try:
