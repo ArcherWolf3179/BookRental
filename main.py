@@ -84,19 +84,22 @@ try:
     @app.route('/borrowBook/<bookID>', methods=['POST'])
 
     def borrowBook(bookID):
-        try:
+        #try:
             if request.method == 'POST':
                 if "user" in session:
                     user = session["user"]
                     userId = mongo.read(userDB,{"username":user},"username",1)
-                    #print(f"This is the user id form line 80 {userId}")
-                    rentResult = mongo.rent_A_Book(bookID, 'bookID', {"ID": userId[0]["ID"]})
+                    bookTitle = mongo.read(allbooks,int(bookID),"bookID",1)
+                    #print(f"This is the book title {bookTitle}")
+                    rentResult = mongo.rent_A_Book({"bookID":bookID,"title":bookTitle[0]["title"],"ID": userId[0]["ID"]})
 
                     print(f"This is the rent result {rentResult}")
 
                     if rentResult == 1:
+                        print("Rent result is 1")
                         return render_template('borrow.html',x="You have succesfully borrowed this book")
                     elif rentResult == 2:
+                        print("rent result is 2")
                         return render_template('borrow.html',x="It seems someone else has borrowed this book")
                     else:
                         return "none"
@@ -104,8 +107,8 @@ try:
             else:
                 return redirect(url_for('login'))
 
-        except Exception as e:
-            print(f"There was an errorr {e} borrow book function")
+        #except Exception as e:
+         #   print(f"There was an errorr {e} borrow book function")
 
     if __name__ == "__main__":
         app.run(debug=True)

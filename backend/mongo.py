@@ -13,6 +13,7 @@ try:
     allbooks = db["books"]
     rentedBooks = db["rentedBooks"]
     userDB = db["user"]
+    onHold = db["OnHold"]
 
     #SignUp(userDB,"afkldafdsf@gmail.com","123-456-7890")
 
@@ -41,29 +42,33 @@ def read(collection,query, specific_valuee,searchMethod):
     except Exception as e:
         print(f"There was an error: {e} read")
 
-def rent_A_Book(newDoc,specificvalue,userID):
-    try:
-        result = rentedBooks.find({specificvalue : newDoc})
-        findUser = userDB.find(userID)
+def rent_A_Book(query):
+    #try:
+        result = read(rentedBooks,query["bookID"],"bookID",1)
+        findUser = read(userDB,query['ID'],"ID",1)
             
         a = []
+        u = []
 
         for doc in result:
             a.append(doc)
 
+        for i in findUser:
+            u.append(u)
+
         if len(a) > 0:
             return 2 #This means that the book was already rented
 
-        if findUser:
-            insert_result = rentedBooks.insert_one({specificvalue : newDoc,"ID" : 1})
+        if len(u) > 0:
+            insert_result = rentedBooks.insert_one(query)
             print(f"Inserted doc ID: {insert_result}")
             return 1
         else:
             print("You need to sign up")
             return 3
 
-    except Exception as e:
-        print(f"There was an error {e} rentedBook function")
+    #except Exception as e:
+    #    print(f"There was an error {e} rentedBook function")
 
 def return_Book(query):
     try:
@@ -91,4 +96,12 @@ def SignUp(email,username):
 
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")
+
+def OnHold():
+    try:
+        pass
+    except Exception as e:
+        print(f"There was an error {e}")
+
+#Make On hold function
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
