@@ -97,11 +97,23 @@ def SignUp(email,username):
     except Exception as e:
         print(f"There was an error function SIgn up: {e}")
 
-def OnHold():
+def OnHold(bookID,title,userID):
     try:
-        pass
+        user = onHold.find({"ID" : userID})
+
+        a = []
+        for doc in user:
+            a.append(doc)
+
+        if len(a) > 0:
+            userOnHoldInfo = {"title" : title, "bookID" : bookID, "userID" : userID}
+            onHold.insert_one(userOnHoldInfo)
+            del(userID)
+            return 1
+
     except Exception as e:
         print(f"There was an error {e}")
+        return 2
 
 #Make On hold function
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
