@@ -110,6 +110,11 @@ try:
         except Exception as e:
            print(f"There was an errorr {e} borrow book function")
 
+    @app.route('/hold')
+
+    def hold():
+        pass
+
     if __name__ == "__main__":
         app.run(debug=True)
 
