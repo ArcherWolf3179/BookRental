@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-import random
+#import random
 #from bson import ObjectId
 
 try:
@@ -54,7 +54,7 @@ def rent_A_Book(query):
             a.append(doc)
 
         for i in findUser:
-            u.append(u)
+            u.append(i)
 
         if len(a) > 0:
             return 2 #This means that the book was already rented

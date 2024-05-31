@@ -32,7 +32,7 @@ try:
 
     def login():
         if "user" in session:
-            return "Your already logged in"
+            return "You're already logged in"
         else:
             return render_template('login.html')
 
@@ -88,7 +88,7 @@ try:
             if request.method == 'POST':
                 if "user" in session:
                     user = session["user"]
-                    userId = mongo.read(userDB,{"username":user},"username",1)
+                    userId = mongo.read(userDB,user,"username",1)
                     bookTitle = mongo.read(allbooks,int(bookID),"bookID",1)
                     #print(f"This is the book title {bookTitle}")
                     rentResult = mongo.rent_A_Book({"bookID":bookID,"title":bookTitle[0]["title"],"ID": userId[0]["ID"]})
@@ -100,7 +100,7 @@ try:
                         return render_template('borrow.html',x="You have succesfully borrowed this book")
                     elif rentResult == 2:
                         print("rent result is 2")
-                        return render_template('borrow.html',x="It seems someone else has borrowed this book")
+                        return render_template('borrow.html',x="It seems someone else has borrowed this book",BookId=bookID)
                     else:
                         return "none"
                     
@@ -110,10 +110,22 @@ try:
         except Exception as e:
            print(f"There was an errorr {e} borrow book function")
 
-    @app.route('/hold')
+    @app.route('/hold/<bookID>', methods=['POST'])
 
-    def hold():
-        pass
+    def hold(bookID):
+        try:
+            if request.method == 'POST':
+                if "user" in session:
+                    user = session["user"]
+                    bookTitle = mongo.read(allbooks,bookID,"bookID",1)
+                    userId = mongo.read(userDB,user,"username",1)
+                    onHold = mongo.OnHold(bookID,bookTitle[0]["bookID"],userId[0]["ID"])
+
+                    if onHold == 1:
+                        return render_template("borrow.html",x="You are now on hold for this book")
+
+        except Exception as e:
+            print(f"There was an error here is more info {e}")
 
     if __name__ == "__main__":
         app.run(debug=True)
