@@ -14,7 +14,7 @@
             {{x}}
 
             {% if x == "It seems someone else has borrowed this book" %}
-                <form action="/hold">
+                <form action="/hold/{{BookID}}">
                     <button>Would you like to be on hold</button>
                 </form>
             {% endif %}
