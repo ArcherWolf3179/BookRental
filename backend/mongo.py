@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-#import random
+import random
 #from bson import ObjectId
 
 try:
@@ -99,21 +99,35 @@ def SignUp(email,username):
 
 def OnHold(bookID,title,userID):
     try:
-        user = onHold.find({"ID" : userID})
+        print("On hold function activated")
+        Isuser = onHold.find({"ID" : userID})
+        user = userDB.find({"ID" : userID})
 
+        b = []
         a = []
-        for doc in user:
+        for doc in Isuser:
             a.append(doc)
 
-        if len(a) > 0:
+        print(a)
+
+        for doc in user:
+            b.append(doc)
+
+        print(b)
+
+        if len(a) == 0 and len(b) > 0:
             userOnHoldInfo = {"title" : title, "bookID" : bookID, "userID" : userID}
             onHold.insert_one(userOnHoldInfo)
             del(userID)
+            print("Insertion succesfull")
             return 1
+        else:
+            return 2
 
     except Exception as e:
         print(f"There was an error {e}")
         return 2
 
+OnHold(21,"A Short History or Nearly Everything",1)
 #Make On hold function
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher

@@ -101,7 +101,7 @@ try:
                         return render_template('borrow.html',x="You have succesfully borrowed this book")
                     elif rentResult == 2:
                         print("rent result is 2")
-                        return render_template('borrow.html',x="It seems someone else has borrowed this book",BookId=bookID)
+                        return render_template('borrow.html',x="It seems someone else has borrowed this book",bookID=bookID)
                     else:
                         return "none"
                     
@@ -115,17 +115,19 @@ try:
 
     def hold(bookID):
         try:
+            #print(f"This is from the hold functio printing bookID: {bookID}")
             if request.method == 'POST':
                 if "user" in session:
                     user = session["user"]
-                    bookTitle = mongo.read(allbooks,bookID,"bookID",1)
+                    bookTitle = mongo.read(allbooks,int(bookID),"bookID",1)
                     userId = mongo.read(userDB,{"username":user},"username",1)
-                    onHold = mongo.OnHold(bookID,bookTitle[0]["bookID"],userId[0]["ID"])# HEY OVER HERE you need to connect the book id in the borrow.html if you don't know what I'm talking about go to the borrow.html and compare the action the hold app route
+                    onHold = mongo.OnHold(bookID,bookTitle[0]["bookID"],userId[0]["ID"])
 
+                    print(onHold)
                     if onHold == 1:
-                        return render_template("borrow.html",x="You are now on hold for this book")
+                        return redirect(url_for("home"))
                     elif onHold == 2:
-                        return render_template("borrow.html", x="There was an error")
+                        return render_template("borrow.html", x="Something went wrong with the hold")
 
         except Exception as e:
             print(f"There was an error here is more info {e}")
