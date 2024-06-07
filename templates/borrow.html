@@ -6,10 +6,17 @@
     </head>
 
     <body>
+
+        <form action="/back">
+            <button>Back To Home</button>
+        </form>
+
             {{x}}
 
             {% if x == "It seems someone else has borrowed this book" %}
-                <button>Would you like to be on hold</button>
+                <form action="/hold/{{bookID}}" method="post">
+                    <button>Would you like to be on hold</button>
+                </form>
             {% endif %}
     </body>
 
