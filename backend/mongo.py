@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import random
+from datetime import datetime, timedelta
 #from bson import ObjectId
 
 try:
@@ -43,7 +44,7 @@ def read(collection,query, specific_valuee,searchMethod):
         print(f"There was an error: {e} read")
 
 def rent_A_Book(query):
-    try:
+    try: 
         result = read(rentedBooks,query["bookID"],"bookID",1)
         findUser = read(userDB,query['ID'],"ID",1)
             
@@ -127,7 +128,5 @@ def OnHold(bookID,title,userID):
     except Exception as e:
         print(f"There was an error {e}")
         return 2
-
-OnHold(21,"A Short History or Nearly Everything",1)
 #Make On hold function
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
