@@ -22,6 +22,7 @@ try:
     def home():
         if "user" in session:
             user = session['user']
+            #rentedBookds = mongo.read()
             return render_template('index.html',x=user)
         else:
             return render_template('index.html',x="Log in")
