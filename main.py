@@ -1,7 +1,10 @@
+# NOTE the read function will make the query and specfic value into a dictionary for
+# NOTE for the read function's search method parameter 0 is for without the regex and 1 is for with
+# NOTE the rent function doesn't put the query into a dictionary for you, so you have to do it yourself
 from backend import mongo
 from flask import Flask, render_template, request, session, url_for, redirect
 import os
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 try:
     placeholderimg = r"C:\Users\avyuk\OneDrive\Pictures\Screenshots\placeholderimg"
@@ -32,7 +35,9 @@ try:
 
     def login():
         if "user" in session:
-            return "You're already logged in"
+            user = session["user"]
+            rented = mongo.read(rentedBookds,user,"username",1)
+            return render_template('profile.html',name=user)
         else:
             return render_template('login.html')
 
@@ -90,8 +95,10 @@ try:
                     user = session["user"]
                     userId = mongo.read(userDB,{"username":user},"username",1)
                     bookTitle = mongo.read(allbooks,int(bookID),"bookID",1)
-                    #print(f"This is the book title {bookTitle}")
-                    rentResult = mongo.rent_A_Book({"bookID":bookID,"title":bookTitle[0]["title"],"ID": userId[0]["ID"]})
+                    today = datetime.now()
+                    Plus = timedelta(days=30)
+                    returnDate = today + Plus
+                    rentResult = mongo.rent_A_Book({"bookID":bookID,"title":bookTitle[0]["title"],"ID": userId[0]["ID"], "BorrowedDate" : datetime.now(), "ReturnDate" : returnDate, "IsOverDue" : False})
                     print(rentResult)
 
                     print(f"This is the rent result {rentResult}")
@@ -115,7 +122,6 @@ try:
 
     def hold(bookID):
         try:
-            #print(f"This is from the hold functio printing bookID: {bookID}")
             if request.method == 'POST':
                 if "user" in session:
                     user = session["user"]
