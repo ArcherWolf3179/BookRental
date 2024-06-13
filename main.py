@@ -1,5 +1,5 @@
 # NOTE the read function will make the query and specfic value into a dictionary for
-# NOTE for the read function's search method parameter 0 is for without the regex and 1 is for with
+# NOTE for the read function's search method parameter 0 is for with the regex and 1 is for without
 # NOTE the rent function doesn't put the query into a dictionary for you, so you have to do it yourself
 from backend import mongo
 from flask import Flask, render_template, request, session, url_for, redirect
@@ -22,7 +22,6 @@ try:
     def home():
         if "user" in session:
             user = session['user']
-            #rentedBookds = mongo.read()
             return render_template('index.html',x=user)
         else:
             return render_template('index.html',x="Log in")
@@ -34,17 +33,18 @@ try:
 
     @app.route('/login', methods=['POST'])
 
-    def login():
+    def login():# NOTE this is where the login page is generated
         if "user" in session:
-            user = session["user"]
-            rented = mongo.read(rentedBookds,user,"username",1)
-            return render_template('profile.html',name=user)
+            user = session["user"] 
+            userId = mongo.read(userDB,{"username":user},"username",1)
+            rented = mongo.read(rentedBookds,userId[0]["ID"],"ID",1)
+            return render_template('profile.html',name=user, x=rented)
         else:
             return render_template('login.html')
 
     @app.route('/loggin', methods=['POST'])
 
-    def loggin():
+    def loggin(): # NOTE this is the login function that actually puts your account details in
         if request.method == 'POST':
             session.permanent = True
             user = request.form["user"]
@@ -96,11 +96,12 @@ try:
                     user = session["user"]
                     userId = mongo.read(userDB,{"username":user},"username",1)
                     bookTitle = mongo.read(allbooks,int(bookID),"bookID",1)
+
                     today = datetime.now()
                     Plus = timedelta(days=30)
                     returnDate = today + Plus
+
                     rentResult = mongo.rent_A_Book({"bookID":bookID,"title":bookTitle[0]["title"],"ID": userId[0]["ID"], "BorrowedDate" : datetime.now(), "ReturnDate" : returnDate, "IsOverDue" : False})
-                    print(rentResult)
 
                     print(f"This is the rent result {rentResult}")
 

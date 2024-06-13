@@ -11,7 +11,10 @@
         {{name}}
         <br>
         <h1>Rented</h1>
-
+        {% for x in content%}
+            <h3>{{x["title"]}}</h3>
+            <h3>{{x["author"]}}</h3>
+        {% endfor %}
         <h1>On Hold</h1>
     </body>
 </html>
