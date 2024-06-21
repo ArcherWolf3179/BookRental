@@ -13,6 +13,7 @@ try:
     allbooks = mongo.allbooks
     rentedBookds = mongo.rentedBooks
     userDB = mongo.userDB
+    onhold = mongo.onHold
 
     app.secret_key = os.urandom(12).hex()
     app.permanent_session_lifetime = timedelta(days=30)
@@ -38,7 +39,10 @@ try:
             user = session["user"] 
             userId = mongo.read(userDB,{"username":user},"username",1)
             rented = mongo.read(rentedBookds,userId[0]["ID"],"ID",1)
-            return render_template('profile.html',name=user, x=rented)
+
+            #onHold = mongo.read(onHold,userId[0]["ID"],"ID",1)
+
+            return render_template('profile.html',name=user, content=rented)
         else:
             return render_template('login.html')
 
