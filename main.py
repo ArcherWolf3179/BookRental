@@ -40,9 +40,9 @@ try:
             userId = mongo.read(userDB,{"username":user},"username",1)
             rented = mongo.read(rentedBookds,userId[0]["ID"],"ID",1)
 
-            #onHold = mongo.read(onHold,userId[0]["ID"],"ID",1)
+            onHold = mongo.read(onhold,userId[0]["ID"],"ID",1)
 
-            return render_template('profile.html',name=user, content=rented)
+            return render_template('profile.html',name=user, content=rented,Hold=onHold)
         else:
             return render_template('login.html')
 
@@ -133,7 +133,7 @@ try:
                     user = session["user"]
                     bookTitle = mongo.read(allbooks,int(bookID),"bookID",1)
                     userId = mongo.read(userDB,{"username":user},"username",1)
-                    onHold = mongo.OnHold(bookID,bookTitle[0]["bookID"],userId[0]["ID"])
+                    onHold = mongo.OnHold(bookID,bookTitle[0]["title"],userId[0]["ID"])
 
                     print(onHold)
                     if onHold == 1:
