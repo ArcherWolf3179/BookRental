@@ -25,6 +25,7 @@ try:
             user = session['user']
             return render_template('index.html',x=user)
         else:
+            
             return render_template('index.html',x="Log in")
     
     @app.route('/back')
@@ -50,12 +51,12 @@ try:
 
     def loggin(): # NOTE this is the login function that actually puts your account details in
         if request.method == 'POST':
-            session.permanent = True
-            user = request.form["user"]
+            session['user'] = request.form["user"]
             email = request.form["email"]
 
-            mongo.SignUp({"email":email}, {"username":user})
-            session["user"] = user
+            mongo.SignUp({"email":email}, {"username":session['user']})
+
+            session.permanent = True
 
             return redirect(url_for("home"))
 
@@ -105,7 +106,7 @@ try:
                     Plus = timedelta(days=30)
                     returnDate = today + Plus
 
-                    rentResult = mongo.rent_A_Book({"bookID":bookID,"title":bookTitle[0]["title"],"ID": userId[0]["ID"], "BorrowedDate" : datetime.now(), "ReturnDate" : returnDate, "IsOverDue" : False})
+                    rentResult = mongo.rent_A_Book({"bookID":bookID,"title":bookTitle[0]["title"],"author":bookTitle[0]['authors'],"ID": userId[0]["ID"], "BorrowedDate" : datetime.now(), "ReturnDate" : returnDate, "IsOverDue" : False})
 
                     print(f"This is the rent result {rentResult}")
 
