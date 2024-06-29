@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from datetime import datetime
 
 try:
 
@@ -125,5 +126,24 @@ def OnHold(bookID,title,userID):
     except Exception as e:
         print(f"There was an error {e}")
         return 2
+    
+def Overdue(title):
+    try:
+
+        book = read(rentedBooks,title,"title",1)
+        
+        if book[0]["ReturnDate"] < datetime.now():
+
+            filter = {"ID" : book[0]["ID"]}
+            update = {"$set" : {"IsOverDue" : True}}
+
+            result = rentedBooks.update_one(filter,update)
+            print(f"{result}")
+
+            return 1
+
+    except Exception as e:
+        print(f"There was an error this is the overdue function {e}")
+
 #Make On hold function
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
