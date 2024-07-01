@@ -37,7 +37,6 @@ try:
 
     def login():# NOTE this is where the login page is generated
         if "user" in session:
-            something = None
             user = session["user"] 
             userId = mongo.read(userDB,{"username":user},"username",1)
             rented = mongo.read(rentedBookds,userId[0]["ID"],"ID",1)
