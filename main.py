@@ -37,13 +37,18 @@ try:
 
     def login():# NOTE this is where the login page is generated
         if "user" in session:
+            something = None
             user = session["user"] 
             userId = mongo.read(userDB,{"username":user},"username",1)
             rented = mongo.read(rentedBookds,userId[0]["ID"],"ID",1)
 
             onHold = mongo.read(onhold,userId[0]["ID"],"ID",1)
+            overDue = mongo.Overdue(session['user'])
 
-            return render_template('profile.html',name=user, content=rented,Hold=onHold)
+            if overDue == 0:
+                return render_template('profile.html',name=user, content=rented,Hold=onHold)
+            else:
+                return render_template('profile.html',name=user, content=rented,Hold=onHold,overDue=overDue)
         else:
             return render_template('login.html')
 
