@@ -127,20 +127,25 @@ def OnHold(bookID,title,userID):
         print(f"There was an error {e}")
         return 2
     
-def Overdue(title):
+def Overdue(user):
     try:
 
-        book = read(rentedBooks,title,"title",1)
+        userID = read(userDB,{"username":user},"username",1)
         
-        if book[0]["ReturnDate"] < datetime.now():
+        if user[0]["ReturnDate"] < datetime.now():
 
-            filter = {"ID" : book[0]["ID"]}
+            filter = {"ID" : userID[0]["ID"]}
             update = {"$set" : {"IsOverDue" : True}}
 
             result = rentedBooks.update_one(filter,update)
-            print(f"{result}")
+            print(f"The result is {result}")
 
-            return 1
+            title = read(rentedBooks,userID,'ID',1)
+
+            return title
+        
+        else:
+            return 0
 
     except Exception as e:
         print(f"There was an error this is the overdue function {e}")
