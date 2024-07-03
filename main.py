@@ -40,12 +40,12 @@ try:
             user = session["user"] 
             userId = mongo.read(userDB,{"username":user},"username",1)
             rented = mongo.read(rentedBookds,userId[0]["ID"],"ID",1)
-
+            # TODO have to fix bug
             onHold = mongo.read(onhold,userId[0]["ID"],"ID",1)
             overDue = mongo.Overdue(session['user'])
 
             if overDue == 0:
-                return render_template('profile.html',name=user, content=rented,Hold=onHold)
+                return render_template('profile.html',name=user, content=rented,Hold=onHold,overDue=0)
             else:
                 return render_template('profile.html',name=user, content=rented,Hold=onHold,overDue=overDue)
         else:
