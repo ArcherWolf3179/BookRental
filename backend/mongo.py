@@ -33,6 +33,7 @@ def read(collection,query, specific_valuee,searchMethod):
             
         elif searchMethod == 1:
             a = []
+            print({specific_valuee : query})
             result = collection.find({specific_valuee : query})
             for doc in result:
                 a.append(doc)
@@ -131,7 +132,7 @@ def Overdue(user):
     try:
 
         userID = read(userDB,{"username":user},"username",1)
-        returnDate = read(rentedBooks,{"ID" : userID[0]['ID']},"ReturnDate",1)
+        returnDate = read(rentedBooks,userID[0]['ID'],"ID",1)
         
         if returnDate[0]["ReturnDate"] < datetime.now():
 
