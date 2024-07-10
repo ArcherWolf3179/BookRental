@@ -33,6 +33,7 @@ def read(collection,query, specific_valuee,searchMethod):
             
         elif searchMethod == 1:
             a = []
+            print({specific_valuee : query})
             result = collection.find({specific_valuee : query})
             for doc in result:
                 a.append(doc)
@@ -131,8 +132,9 @@ def Overdue(user):
     try:
 
         userID = read(userDB,{"username":user},"username",1)
+        returnDate = read(rentedBooks,userID[0]['ID'],"ID",1)
         
-        if user[0]["ReturnDate"] < datetime.now():
+        if returnDate[0]["ReturnDate"] < datetime.now():
 
             filter = {"ID" : userID[0]["ID"]}
             update = {"$set" : {"IsOverDue" : True}}
@@ -149,6 +151,6 @@ def Overdue(user):
 
     except Exception as e:
         print(f"There was an error this is the overdue function {e}")
-
+Overdue("Avyukta Dinesh")
 #Make On hold function
 # bookID,title,authors,average_rating,isbn,isbn13,language_code,  num_pages,ratings_count,text_reviews_count,publication_date,publisher
