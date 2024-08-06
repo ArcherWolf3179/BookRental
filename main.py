@@ -149,6 +149,22 @@ try:
         except Exception as e:
             print(f"There was an error here is more info {e}")
 
+    @app.route('/<bookID>', methods=['POST'])
+
+    def return_Book(bookID):
+        try:
+            if request.method == 'POST':
+                if "user" in session:
+                    query = mongo.read(rentedBookds,bookID,'bookID',1)
+                    mongo.return_Book(query[0])
+
+                    return "You have succesfully returned book"
+                else:
+                    return redirect(url_for("login"))
+
+        except Exception as e:
+            print(f"There was an error {e}")
+
     if __name__ == "__main__":
         app.run(debug=True)
 

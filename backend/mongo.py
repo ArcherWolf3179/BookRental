@@ -7,7 +7,6 @@ try:
 
     client = MongoClient(URL)
     db = client.get_database()
-    print("Connection successful!")
 
     allbooks = db["books"]
     rentedBooks = db["rentedBooks"]
