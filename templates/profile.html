@@ -12,7 +12,13 @@
         <br>
         <h1>Rented</h1>
         {% for x in content%}
-            <h3>{{x["title"]}} Due: {{x['ReturnDate']}}</h3>
+            <form action="/return/{{x['bookID']}}" method="post">
+                <h3>{{x["title"]}} Due: {{x['ReturnDate']}}</h3>
+                <br>
+                <button name="return">Return</button>
+                <br>    
+            </form>
+
         {% endfor %}
         <h1>On Hold</h1>
         {% for x in Hold%}
