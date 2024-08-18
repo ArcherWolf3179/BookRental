@@ -158,7 +158,7 @@ try:
                     query = mongo.read(rentedBookds,bookID,'bookID',1)
                     mongo.return_Book(query[0])
 
-                    return "You have succesfully returned book"
+                    return redirect(url_for("home"))
                 else:
                     return redirect(url_for("login"))
 

@@ -88,7 +88,7 @@ def SignUp(email,username):
             print("You've already signed up here before with this email or number")
         else:
             userID = 1
-            userInfo = {"email" : email,"username" : username, "ID" : userID}
+            userInfo = {"email" : email,"username" : username, "ID" : userID," overdue ": False}
             userDB.insert_one(userInfo)
             print("Inserted user info")
             del(userInfo,u,userID)
@@ -138,7 +138,10 @@ def Overdue(user):
             filter = {"ID" : userID[0]["ID"]}
             update = {"$set" : {"IsOverDue" : True}}
 
+            userUpdate = {"$set" : {"overdue" : True}}
+
             result = rentedBooks.update_one(filter,update)
+            userDB.update_one(filter,userUpdate)
             print(f"The result is {result}")
 
             title = read(rentedBooks,userID,'ID',1)
