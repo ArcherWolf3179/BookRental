@@ -5,7 +5,7 @@ from backend import mongo
 from flask import Flask, render_template, request, session, url_for, redirect
 import os
 from datetime import timedelta, datetime
-
+#TODO have to fix type error NoneType object is not iterable
 try:
     placeholderimg = r"C:\Users\avyuk\OneDrive\Pictures\Screenshots\placeholderimg"
 
