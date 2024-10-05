@@ -5,7 +5,7 @@ from backend import mongo
 from flask import Flask, render_template, request, session, url_for, redirect
 import os
 from datetime import timedelta, datetime
-#TODO have to fix type error NoneType object is not iterable
+#TODO have to fix type error NoneType object is not iterable check profile.html
 try:
     placeholderimg = r"C:\Users\avyuk\OneDrive\Pictures\Screenshots\placeholderimg"
 
@@ -44,7 +44,7 @@ try:
             onHold = mongo.read(onhold,userId[0]["ID"],"ID",1)
             overDue = mongo.Overdue(session['user'])
 
-            if overDue == 0:
+            if overDue == 0 or overDue == None:
                 return render_template('profile.html',name=user, content=rented,Hold=onHold,overDue=0)
             else:
                 return render_template('profile.html',name=user, content=rented,Hold=onHold,overDue=overDue)
