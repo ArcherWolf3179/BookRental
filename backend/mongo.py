@@ -13,8 +13,6 @@ try:
     userDB = db["user"]
     onHold = db["OnHold"]
 
-    #SignUp(userDB,"afkldafdsf@gmail.com","123-456-7890")
-
 except Exception as e:
     print(f"There was an error {e} mongo.py")
 
@@ -98,24 +96,26 @@ def SignUp(email,username):
 
 def OnHold(bookID,title,userID):
     try:
-        print("On hold function activated")
-        Isuser = onHold.find({"ID" : userID})
-        user = userDB.find({"ID" : userID})
+        print("On hold function activated") 
+        Isuser = onHold.find({"ID" : userID})# Ok so what we're doing here is we're looking at the onHold collection and checking to see if the user is there
+        user = userDB.find({"ID" : userID})# this does the same thing but with the user collection
 
         b = []
         a = []
-        for doc in Isuser:
+        for doc in Isuser:#goes through the results in Isuser and adding that to list a
             a.append(doc)
 
         print(a)
 
-        for doc in user:
+        for doc in user:#same thing here but is for user and goes to list b
             b.append(doc)
 
         print(b)
 
+        # This is making sure list A is 0 because if a is zero then the user will not already have put anything on hold list
+        # List b is making sure the user exists
         if len(a) == 0 and len(b) > 0:
-            userOnHoldInfo = {"title" : title, "bookID" : bookID, "ID" : userID}
+            userOnHoldInfo = {"title" : title, "bookID" : bookID, "ID" : userID} # Just making this into a dictionary to insert into the onHold collection
             onHold.insert_one(userOnHoldInfo)
             del(userID)
             print("Insertion succesfull")
